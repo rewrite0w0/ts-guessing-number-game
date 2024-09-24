@@ -21,37 +21,41 @@ const askingReGame = () => {
   });
 };
 
+const checkingAnswer = (
+  answer: number,
+  secretNumber: number,
+  guesses: number
+): void => {
+  if (answer === secretNumber) {
+    console.log(`정답! ${guesses}번 걸림`);
+    askingReGame();
+  }
+
+  if (answer < secretNumber) {
+    console.log("그 수 보다 높음");
+
+    askNumber(guesses, secretNumber);
+  }
+
+  if (answer > secretNumber) {
+    console.log("그 수 보다 낮음");
+
+    askNumber(guesses, secretNumber);
+  }
+};
+
+const askNumber = (guesses: number, secretNumber: number): void => {
+  rl.question("추측 숫자 0 ~ 100: ", (answer) => {
+    guesses += 1;
+    checkingAnswer(Number(answer), secretNumber, guesses);
+  });
+};
+
 const playGuess = async (): Promise<void> => {
   let guesses = 0;
   let secretNumber = generationNumber();
 
-  const checkingAnswer = (answer: number, secret: number): void => {
-    if (answer === secret) {
-      console.log(`정답! ${guesses}번 걸림`);
-      askingReGame();
-    }
-
-    if (answer < secret) {
-      console.log("그 수 보다 높음");
-
-      askNumber();
-    }
-
-    if (answer > secret) {
-      console.log("그 수 보다 낮음");
-
-      askNumber();
-    }
-  };
-
-  const askNumber = (): void => {
-    rl.question("추측 숫자 0 ~ 100: ", (answer) => {
-      guesses += 1;
-      checkingAnswer(Number(answer), secretNumber);
-    });
-  };
-
-  askNumber();
+  askNumber(guesses, secretNumber);
 };
 
 playGuess();
