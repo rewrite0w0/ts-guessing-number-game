@@ -51,7 +51,7 @@ const askNumber = (guesses: number, secretNumber: number): void => {
   });
 };
 
-const playGuess = async (): Promise<void> => {
+const playGuess = (): void => {
   let guesses = 0;
   let secretNumber = generationNumber();
 
